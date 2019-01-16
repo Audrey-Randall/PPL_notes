@@ -61,3 +61,6 @@ theorem_4 = sum 3
 Because combinator:
 (?) :: a -> b -> a
 x ? coz = x
+
+to write a proof with FORALL, example FORALL n. n <= sum n 
+{-@ n:Int -> { | n <= sum n} @-}
