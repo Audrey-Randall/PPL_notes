@@ -8,10 +8,12 @@ sum x
     | 0 = 0
     | x = x + sum x-1
 
-{-@ theorem_example :: { sum 2 == 3 } @-}
+{-@ theorem_example :: { sum 2 == 3 } @-} --wrong type signature, not sure what to put instead 
 theorem_example :: _
 theorem_example = undefined
 -- Wait, what's undefined again?
+
+{-@ theorem_ex1 :: { sum 2 == 3 } @-}
 theorem_ex1 = sum 2
             === 2 + sum 1
             === 2 + 1 + sum 0
@@ -34,3 +36,28 @@ To make a type "(=*=)" (the equality type, same as ==):
 \end{code}
 
 <=> means if and only if
+
+More proofs:
+\begin{code}
+{-@ theorem_2 :: { v: _ | sum 3 == 6 } @-}
+theorem_2 :: _
+theorem_2 = sum 3
+        === 3 + sum 2
+        === 3 + 2 + sum 1
+        === 3 + 2 + 1 + sum 0
+        === 6
+-- ^^ that's inconvenient b/c it repeats stuff. so we make a because combinator
+--This below won't work because it doesn't know sum 2 is 3:
+theorem_3 = sum 3 
+        === 3 + sum 2
+        === 6
+
+theorem_4 = sum 3
+        === 3 + sum 2
+            ? theorem_ex1 ()
+        === 6
+\end{code}
+
+Because combinator:
+(?) :: a -> b -> a
+x ? coz = x
